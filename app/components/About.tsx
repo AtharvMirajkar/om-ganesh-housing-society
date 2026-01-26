@@ -104,7 +104,7 @@ export default function About() {
             </p>
 
             <p className="text-lg text-[#8b7355] leading-relaxed mb-8">
-              Our society is more than just a place to live—it&apos;s a family of over 100 
+              Our society is more than just a place to live—it&apos;s a family of over 35 
               households who share common values of harmony, cooperation, and mutual 
               respect. We take pride in maintaining high standards of living while 
               fostering a sense of belonging among all residents.

@@ -130,7 +130,7 @@ export default function Hero() {
         >
           {[
             { value: "40+", label: "Years of Trust" },
-            { value: "100+", label: "Happy Families" },
+            { value: "35+", label: "Happy Families" },
             { value: "15+", label: "Amenities" },
             { value: "24/7", label: "Security" },
           ].map((stat, index) => (
