@@ -5,15 +5,17 @@ import { useEffect, useRef, useState } from "react";
 const galleryImages = [
   {
     id: 1,
-    title: "Building Exterior",
-    category: "Architecture",
-    gradient: "from-[#c45c26] to-[#d4a574]"
+   
+    title: "Community Garden",
+    category: "Outdoors",
+    gradient: "from-[#c45c26] to-[#d4a574]",
   },
   {
     id: 2,
-    title: "Community Garden",
-    category: "Outdoors",
-    gradient: "from-[#7a9e7e] to-[#9bb89e]"
+    title: "Building Exterior",
+    category: "Architecture",
+    gradient: "from-[#7a9e7e] to-[#9bb89e]",
+    src: "/gallery/building-exterior.jpeg"
   },
   {
     id: 3,
@@ -110,19 +112,25 @@ export default function Gallery() {
               style={{ transitionDelay: `${index * 100}ms` }}
               onClick={() => setSelectedImage(image.id)}
             >
-              {/* Gradient placeholder (in place of actual images) */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${image.gradient}`} />
-              
-              {/* Pattern overlay */}
-              <div className="absolute inset-0 opacity-20 pattern-dots" />
-
-              {/* Camera icon placeholder */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <svg className="w-16 h-16 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
+              {/* Image or gradient placeholder */}
+              {"src" in image && image.src ? (
+                <img
+                  src={image.src}
+                  alt={image.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <>
+                  <div className={`absolute inset-0 bg-gradient-to-br ${image.gradient}`} />
+                  <div className="absolute inset-0 opacity-20 pattern-dots" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg className="w-16 h-16 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                </>
+              )}
 
               {/* Hover overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -174,22 +182,29 @@ export default function Gallery() {
             </svg>
           </button>
           <div className="max-w-4xl w-full aspect-video rounded-2xl overflow-hidden">
-            {galleryImages.find(img => img.id === selectedImage) && (
-              <div className={`w-full h-full bg-gradient-to-br ${galleryImages.find(img => img.id === selectedImage)?.gradient} flex items-center justify-center`}>
-                <div className="text-center text-white">
-                  <svg className="w-24 h-24 mx-auto mb-4 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <h3 className="text-2xl font-serif font-bold">
-                    {galleryImages.find(img => img.id === selectedImage)?.title}
-                  </h3>
-                  <p className="text-white/60 mt-2">
-                    {galleryImages.find(img => img.id === selectedImage)?.category}
-                  </p>
+            {galleryImages.find(img => img.id === selectedImage) && (() => {
+              const selected = galleryImages.find(img => img.id === selectedImage)!;
+              const hasImage = "src" in selected && selected.src;
+              return hasImage ? (
+                <img
+                  src={selected.src}
+                  alt={selected.title}
+                  className="w-full h-full object-contain bg-black"
+                  onClick={(e) => e.stopPropagation()}
+                />
+              ) : (
+                <div className={`w-full h-full bg-gradient-to-br ${selected.gradient} flex items-center justify-center`}>
+                  <div className="text-center text-white">
+                    <svg className="w-24 h-24 mx-auto mb-4 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <h3 className="text-2xl font-serif font-bold">{selected.title}</h3>
+                    <p className="text-white/60 mt-2">{selected.category}</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
           </div>
         </div>
       )}
